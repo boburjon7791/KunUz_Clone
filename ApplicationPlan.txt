@@ -1,0 +1,28 @@
+In this platform, users have 3 position:
+     1. REPORTER
+     2. EDITOR
+     3. USER
+     4. DIRECTOR
+
+REPORTER can do the following actions:
+     1. Edit Post
+     2. Delete Post
+     3. Read Post
+
+EDITOR can do the following actions:
+     1. Create New Post
+     2. Edit Post
+     3. Delete Post
+     4. Read Post
+     5. Add New Category
+     6. Remove Category if not exist any post
+USER can read post only.
+
+DIRECTOR can do the following actions:
+     1. Read Post
+     2. Add New Employee
+     3. Remove Employee
+     4. Read Employee Data
+
+REPORTER, EDITOR and DIRECTOR must register in system and they can actions while doing login to system:
+USER  can not register in this system. USER can read posts without any registering and login actions.
