@@ -45,19 +45,18 @@ public class AuthUser {
     @Column(nullable = false)
     private Role role;
 
-    @NotBlank
+    @NotNull
     @Column(name = "work_date",nullable = false)
     private LocalDate workDate;
 
     @Column(name = "end_date")
     private LocalDate endDate;
 
-    @NotNull
     @Builder.Default
     @Column(nullable = false)
-    private Boolean active=false;
+    private Boolean active=true;
 
-    @NotNull
+    @Builder.Default
     @Column(nullable = false)
-    private Boolean online;
+    private Boolean online=false;
 }

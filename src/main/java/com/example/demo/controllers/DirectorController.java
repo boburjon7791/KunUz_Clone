@@ -4,6 +4,7 @@ import com.example.demo.enums.Role;
 import com.example.demo.objects.AuthUser;
 import com.example.demo.sevices.DirectorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;

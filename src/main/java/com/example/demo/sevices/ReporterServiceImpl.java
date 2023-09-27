@@ -5,6 +5,7 @@ import com.example.demo.exceptions.NotFoundException;
 import com.example.demo.objects.Post;
 import com.example.demo.repositories.CategoryRepository;
 import com.example.demo.repositories.PostRepository;
+import com.example.demo.utils.Utils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,12 +22,15 @@ public class ReporterServiceImpl implements ReporterService {
     private final CategoryRepository categoryRepository;
     private final PostRepository postRepository;
     private final MultimediaService multimediaService;
+    private final Utils utils;
 
     @Override
     public Post save(Post post) {
         checkImages(post,categoryRepository,multimediaService);
         post.setDate(LocalDateTime.now());
-        return postRepository.save(post);
+        Post saved = postRepository.save(post);
+        utils.deletePostCaches();
+        return saved;
     }
 
     private static void checkImages(Post post,
@@ -54,16 +58,25 @@ public class ReporterServiceImpl implements ReporterService {
         post.setTitle(Objects.requireNonNullElse(post.getTitle(),founded.getTitle()));
         post.setBody(Objects.requireNonNullElse(post.getBody(),founded.getBody()));
         post.setImages(Objects.requireNonNullElse(post.getImages(),founded.getImages()));
-        post.setVideos(Objects.requireNonNullElse(post.getVideos(),founded.getVideos()));
-        return postRepository.save(founded);
+        if (founded.getVideos()!=null) {
+            post.setVideos(Objects.requireNonNullElse(post.getVideos(),founded.getVideos()));
+        }
+        Post saved = postRepository.save(post);
+        utils.deletePostCaches();
+        return saved;
     }
 
     @Override
     public void delete(String id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
-        Arrays.stream(post.getImages())
-                        .forEach(multimediaService::delete);
+        String[] images = post.getImages();
+        System.out.println(Arrays.toString(images));
+        if (images!=null) {
+            Arrays.stream(post.getImages())
+                    .forEach(multimediaService::delete);
+        }
         postRepository.delete(post);
+        utils.deletePostCaches(id);
     }
 }

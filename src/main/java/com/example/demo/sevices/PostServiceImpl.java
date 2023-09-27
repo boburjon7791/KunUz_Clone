@@ -91,4 +91,11 @@ public class PostServiceImpl implements PostService {
                 .map(Category::getName)
                 .toList();
     }
+
+    @Override
+    public Page<Post> findBySearching(String search, Pageable pageable) {
+        System.out.println(Arrays.toString(search.split("[+]")));
+        return postRepository.findAllByInputtedTexts
+                (search.split("[+]"),pageable);
+    }
 }

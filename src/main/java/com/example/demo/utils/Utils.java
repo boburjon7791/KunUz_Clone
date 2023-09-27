@@ -1,6 +1,15 @@
 package com.example.demo.utils;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.cache.CacheManager;
+import org.springframework.stereotype.Service;
+
+import java.util.Objects;
+
+@Service
+@RequiredArgsConstructor
 public class Utils {
+    private final CacheManager cacheManager;
     /*
     * this method can help setting default page and size values,
     * if not exist.
@@ -20,5 +29,15 @@ public class Utils {
             pageSize++;
         }
         return new int[]{pageNumber,pageSize};
+    }
+    public void deletePostCaches(String id){
+//        if (!id.isBlank()) {
+//            Objects.requireNonNull(cacheManager.getCache("posts")).evictIfPresent(id);
+//        }
+        deletePostCaches();
+    }
+    public void deletePostCaches(){
+//        Objects.requireNonNull(cacheManager.getCache("posts")).evictIfPresent("get");
+//        Objects.requireNonNull(cacheManager.getCache("posts")).evictIfPresent("getByCategory");
     }
 }

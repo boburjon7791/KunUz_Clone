@@ -10,13 +10,14 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
 import java.security.Key;
 import java.util.Date;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtUtils {
@@ -31,7 +32,8 @@ public class JwtUtils {
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
-            if (!claims.getExpiration().before(new Date())) {
+            log.info("Expiration : "+claims.getExpiration().toString());
+            if (claims.getExpiration().before(new Date())) {
                 throw new UnauthorizedException();
             }
             return claims.getSubject();

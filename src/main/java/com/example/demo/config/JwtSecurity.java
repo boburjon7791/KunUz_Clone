@@ -1,4 +1,4 @@
-package com.example.demo.security;
+package com.example.demo.config;
 
 import com.example.demo.sevices.CustomUserDetailsService;
 import com.example.demo.utils.JwtUtils;

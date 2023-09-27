@@ -3,6 +3,8 @@ package com.example.demo.controllers;
 import com.example.demo.objects.Post;
 import com.example.demo.sevices.EditorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class EditorController {
     private final EditorService editorService;
     @PutMapping("/update/post")
+//    @CachePut(key = "#post.id",value = "posts")
     public ResponseEntity<Post> update(@RequestBody Post post){
         Post updated = editorService.update(post);
         return new ResponseEntity<>(updated, HttpStatus.NO_CONTENT);

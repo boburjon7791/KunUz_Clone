@@ -1,6 +1,7 @@
 package com.example.demo.sevices;
 
 import com.example.demo.exceptions.BadRequestException;
+import com.example.demo.exceptions.NotFoundException;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Service;
@@ -22,12 +23,12 @@ public class MultimediaServiceImpl implements MultimediaService {
     public String save(MultipartFile file) {
         String filename = file.getOriginalFilename();
         String extension = FilenameUtils.getExtension(filename);
-        if (extension==null || extension.equals("jpg")) {
+        if (extension==null || !extension.equals("jpg")) {
             throw new BadRequestException("Not Supported file type");
         }
         long megabyte = file.getSize() * 1024 * 1024;
         if (megabyte>1) {
-            throw new BadRequestException("Image size must be less than 1 mb");
+//            throw new BadRequestException("Image size must be less than 1 mb");
         }
         InputStream inputStream = file.getInputStream();
         String generatedFilename = UUID.randomUUID() + "." + extension;
@@ -50,6 +51,11 @@ public class MultimediaServiceImpl implements MultimediaService {
     @SneakyThrows
     @Override
     public @ResponseBody  byte[] get(String filename) {
-        return Files.readAllBytes(Path.of(root + "/" + filename));
+        Path path = Path.of(root + "/" + filename);
+        System.out.println(path);
+        if (!path.toFile().exists()) {
+            throw new NotFoundException();
+        }
+        return Files.readAllBytes(path);
     }
 }

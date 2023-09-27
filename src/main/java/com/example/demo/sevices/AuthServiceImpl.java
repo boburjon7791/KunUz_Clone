@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,13 +19,14 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
     private final AuthUserRepository authUserRepository;
     private final JwtUtils jwtUtils;
+    private final CacheManager cacheManager;
 
 
     @Override
     public AuthUser login(String username, String password, HttpServletResponse response) {
         String token = jwtUtils.generateToken(username, password);
         response.setHeader("Authorization",token);
-        return authUserRepository.findByUsername(username)
+        return authUserRepository.findByUsernameAndActiveTrue(username)
                 .orElseThrow(NotFoundException::new);
     }
 

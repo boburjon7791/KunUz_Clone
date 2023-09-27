@@ -15,4 +15,5 @@ public interface PostService {
     Page<Post> posts(Pageable pageable, String category);
     Page<Post> posts(Pageable pageable);
     List<String> categories();
+    Page<Post> findBySearching(String search, Pageable pageable);
 }

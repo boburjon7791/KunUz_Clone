@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import java.nio.file.NoSuchFileException;
 
 @Configuration
 public class GlobalExceptionHandler{
@@ -26,5 +27,9 @@ public class GlobalExceptionHandler{
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<Object> exceptionHandler(UnauthorizedException e){
         return new ResponseEntity<>(e.getMessage(),HttpStatus.UNAUTHORIZED);
+    }
+    @ExceptionHandler(NoSuchFileException.class)
+    public ResponseEntity<Object> exceptionHandler(NoSuchFileException e){
+        return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
     }
 }

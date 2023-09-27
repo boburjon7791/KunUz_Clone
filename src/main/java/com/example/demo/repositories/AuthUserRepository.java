@@ -15,7 +15,7 @@ import java.util.Optional;
 public interface AuthUserRepository extends JpaRepository<AuthUser, Long>, JpaSpecificationExecutor<AuthUser> {
     Boolean existsByUsername(String username);
 
-    Optional<AuthUser> findByUsername(String username);
+    Optional<AuthUser> findByUsernameAndActiveTrue(String username);
 
     @Modifying
     @Transactional
@@ -24,7 +24,7 @@ public interface AuthUserRepository extends JpaRepository<AuthUser, Long>, JpaSp
 
     @Modifying
     @Transactional
-    @Query(value = "update AuthUser set endDate=now(),active=false where id=?1")
+    @Query(value = "update AuthUser set endDate=current_date,active=false where id=?1")
     void updateEndDateAndDelete(Long id);
 
     @Modifying
