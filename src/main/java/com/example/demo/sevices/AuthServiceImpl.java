@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -36,6 +38,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @CachePut(key = "#user.id",value = "users")
     public AuthUser update(AuthUser user) {
         if (!authUserRepository.existsByUsername(user.getUsername())) {
             throw new NotFoundException();
@@ -54,6 +57,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Cacheable(key = "#id",value = "users")
     public AuthUser get(Long id) {
         return authUserRepository.findById(id)
                 .orElseThrow(NotFoundException::new);

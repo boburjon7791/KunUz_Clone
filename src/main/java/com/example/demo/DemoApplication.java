@@ -16,17 +16,20 @@ import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.support.SimpleCacheManager;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @EnableAsync
 @EnableCaching
+@EnableScheduling
 @SpringBootApplication
 @RequiredArgsConstructor
 public class DemoApplication {
@@ -34,6 +37,7 @@ public class DemoApplication {
 	private final AuthUserRepository authUserRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final MyApplicationListener myApplicationListener;
+	private final ConcurrentMapCacheManager cacheManager;
 
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
@@ -113,8 +117,9 @@ public class DemoApplication {
 				.group("Simple User")
 				.build();
 	}
-	@Bean
-	public CacheManager cacheManager(){
-		return new SimpleCacheManager();
+	@Scheduled(cron = "0 0 * * * *")
+	public void deleteCaches(){
+		cacheManager.getCacheNames()
+				.forEach(s -> Objects.requireNonNull(cacheManager.getCache(s)).clear());
 	}
 }
