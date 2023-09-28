@@ -7,13 +7,9 @@ import com.example.demo.objects.Category;
 import com.example.demo.objects.Post;
 import com.example.demo.repositories.CategoryRepository;
 import com.example.demo.repositories.PostRepository;
-import com.example.demo.utils.Utils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @Slf4j
@@ -22,7 +18,6 @@ public class EditorServiceImpl implements EditorService {
     private final PostRepository postRepository;
     private final CategoryRepository categoryRepository;
     private final ReporterService reporterService;
-    private final Utils utils;
 
     @Override
     public Post update(Post post) {
@@ -32,7 +27,6 @@ public class EditorServiceImpl implements EditorService {
     @Override
     public void delete(String id) {
         reporterService.delete(id);
-        utils.deletePostCaches(id);
     }
 
     @Override
@@ -46,7 +40,6 @@ public class EditorServiceImpl implements EditorService {
         """);
         }
         categoryRepository.deleteByName(name);
-        utils.deletePostCaches();
     }
 
     @Override

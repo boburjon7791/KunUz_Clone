@@ -3,7 +3,6 @@ package com.example.demo.controllers;
 import com.example.demo.objects.Post;
 import com.example.demo.sevices.ReporterService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

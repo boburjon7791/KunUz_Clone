@@ -4,7 +4,6 @@ import com.example.demo.enums.Role;
 import com.example.demo.objects.AuthUser;
 import com.example.demo.sevices.DirectorService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -31,10 +30,9 @@ public class DirectorController {
         return ResponseEntity.noContent().build();
     }
     @GetMapping("/employees")
-    public ResponseEntity<Page<AuthUser>> employees(@RequestParam(required = false) String page,
-                                                    @RequestParam(required = false) String size){
+    public ResponseEntity<Page<AuthUser>> employees(@RequestParam(required = false) String page){
 
-        int[] nums = number(page, size);
+        int[] nums = number(page);
         Page<AuthUser> employees = directorService.employees(PageRequest.of(nums[0],nums[1]));
         return ResponseEntity.ok(employees);
     }

@@ -28,7 +28,7 @@ public class MultimediaServiceImpl implements MultimediaService {
         }
         long megabyte = file.getSize() * 1024 * 1024;
         if (megabyte>1) {
-//            throw new BadRequestException("Image size must be less than 1 mb");
+            throw new BadRequestException("Image size must be less than 1 mb");
         }
         InputStream inputStream = file.getInputStream();
         String generatedFilename = UUID.randomUUID() + "." + extension;

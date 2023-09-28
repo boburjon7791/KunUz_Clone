@@ -1,7 +1,6 @@
 package com.example.demo.repositories;
 
 import com.example.demo.objects.Category;
-import org.bson.types.ObjectId;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;

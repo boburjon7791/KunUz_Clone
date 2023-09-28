@@ -1,7 +1,6 @@
 package com.example.demo.controllers;
 
 import com.example.demo.sevices.MultimediaService;
-import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

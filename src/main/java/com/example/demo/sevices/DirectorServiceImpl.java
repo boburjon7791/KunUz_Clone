@@ -13,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
 @Service
 @Slf4j
@@ -21,7 +20,6 @@ import java.util.Objects;
 public class DirectorServiceImpl implements DirectorService {
     private final AuthUserRepository authUserRepository;
     private final PasswordEncoder passwordEncoder;
-    private final CacheManager cacheManager;
 
     @Override
     public AuthUser save(AuthUser user) {

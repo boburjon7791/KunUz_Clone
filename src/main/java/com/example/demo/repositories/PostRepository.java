@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PostRepository extends MongoRepository<Post, String> {
     Page<Post> findAllByCategory(String category, Pageable pageable);
-    Page<Post> findAllByOrderByDateDesc(Pageable pageable);
 
     Boolean existsByCategory(String name);
     @Query("{'$or': [{'title': {'$regex': ?0, '$options': 'i'}}, {'body': {'$regex': ?0, '$options': 'i'}}]}")

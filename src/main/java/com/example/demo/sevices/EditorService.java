@@ -2,7 +2,6 @@ package com.example.demo.sevices;
 
 import com.example.demo.objects.Post;
 import org.springframework.stereotype.Service;
-import java.util.List;
 @Service
 public interface EditorService {
     Post update(Post post);

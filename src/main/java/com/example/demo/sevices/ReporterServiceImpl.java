@@ -5,7 +5,6 @@ import com.example.demo.exceptions.NotFoundException;
 import com.example.demo.objects.Post;
 import com.example.demo.repositories.CategoryRepository;
 import com.example.demo.repositories.PostRepository;
-import com.example.demo.utils.Utils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,15 +21,12 @@ public class ReporterServiceImpl implements ReporterService {
     private final CategoryRepository categoryRepository;
     private final PostRepository postRepository;
     private final MultimediaService multimediaService;
-    private final Utils utils;
 
     @Override
     public Post save(Post post) {
         checkImages(post,categoryRepository,multimediaService);
         post.setDate(LocalDateTime.now());
-        Post saved = postRepository.save(post);
-        utils.deletePostCaches();
-        return saved;
+        return postRepository.save(post);
     }
 
     private static void checkImages(Post post,
@@ -61,9 +57,7 @@ public class ReporterServiceImpl implements ReporterService {
         if (founded.getVideos()!=null) {
             post.setVideos(Objects.requireNonNullElse(post.getVideos(),founded.getVideos()));
         }
-        Post saved = postRepository.save(post);
-        utils.deletePostCaches();
-        return saved;
+        return postRepository.save(post);
     }
 
     @Override
@@ -77,6 +71,5 @@ public class ReporterServiceImpl implements ReporterService {
                     .forEach(multimediaService::delete);
         }
         postRepository.delete(post);
-        utils.deletePostCaches(id);
     }
 }
