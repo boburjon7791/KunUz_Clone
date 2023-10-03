@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.nio.file.NoSuchFileException;
 
-@Configuration
+@RestControllerAdvice
 public class GlobalExceptionHandler{
     @ExceptionHandler(value = BadRequestException.class)
     public ResponseEntity<Object> exceptionHandler(BadRequestException e){
