@@ -12,6 +12,7 @@ import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -24,9 +25,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.Objects;
 
+@Slf4j
 @EnableAsync
 @EnableCaching
 @EnableScheduling
@@ -46,6 +49,7 @@ public class DemoApplication {
 	public CommandLineRunner runner(){
 		return args -> {
 			try {
+
 				AuthUser director = AuthUser.builder()
 						.active(true)
 						.password(passwordEncoder.encode("11223344"))

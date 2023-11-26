@@ -73,17 +73,16 @@ public class SecurityConfiguration {
                 .build();
     }
     @Bean
-    public CorsConfigurationSource configurationSource(){
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(List.of(
-                "/**"
-        ));
+        configuration.setAllowedOriginPatterns(List.of("/**"));
         configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowedMethods(List.of("*")); // Bu qatorni qo'shish kerak
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**",configuration);
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
