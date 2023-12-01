@@ -4,6 +4,7 @@ import com.example.demo.objects.AuthUser;
 import com.example.demo.sevices.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class AuthController {
         return ResponseEntity.noContent().build();
     }
     @PutMapping("/update")
-    public ResponseEntity<AuthUser> update(@RequestBody AuthUser user){
+    public ResponseEntity<AuthUser> update(@RequestBody @Valid AuthUser user){
         AuthUser authUser = authService.update(user);
         return new ResponseEntity<>(authUser, HttpStatus.NO_CONTENT);
     }

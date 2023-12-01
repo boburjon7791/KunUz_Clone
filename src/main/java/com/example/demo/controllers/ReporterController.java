@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.objects.Post;
 import com.example.demo.sevices.ReporterService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +16,13 @@ import org.springframework.web.bind.annotation.*;
 public class ReporterController {
     private final ReporterService reporterService;
     @PostMapping("/save/post")
-    public ResponseEntity<Post> save(@RequestBody Post post){
+    public ResponseEntity<Post> save(@RequestBody @Valid Post post){
         Post saved = reporterService.save(post);
         return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
     @PutMapping("/update/post")
 //    @CachePut(key = "#post.id",value = "posts")
-    public ResponseEntity<Post> update(@RequestBody Post post){
+    public ResponseEntity<Post> update(@RequestBody @Valid Post post){
         Post updated = reporterService.update(post);
         return new ResponseEntity<>(updated,HttpStatus.NO_CONTENT);
     }

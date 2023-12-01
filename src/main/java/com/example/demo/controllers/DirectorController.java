@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import com.example.demo.enums.Role;
 import com.example.demo.objects.AuthUser;
 import com.example.demo.sevices.DirectorService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,7 +21,7 @@ import static com.example.demo.utils.Utils.number;
 public class DirectorController {
     private final DirectorService directorService;
     @PostMapping("/save/employee")
-    public ResponseEntity<AuthUser> save(@RequestBody AuthUser user){
+    public ResponseEntity<AuthUser> save(@RequestBody @Valid AuthUser user){
         AuthUser authUser = directorService.save(user);
         return new ResponseEntity<>(authUser, HttpStatus.CREATED);
     }
