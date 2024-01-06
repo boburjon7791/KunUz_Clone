@@ -45,7 +45,7 @@ public class DemoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
 	}
-	@Bean
+//	@Bean
 	public CommandLineRunner runner(){
 		return args -> {
 			try {
