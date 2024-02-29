@@ -17,7 +17,12 @@ import java.util.UUID;
 
 @Service
 public class MultimediaServiceImpl implements MultimediaService {
-    public static final String root = System.getProperty("user.home")+"/Desktop/files";
+    public static final String root = "folder";
+    static {
+        if (!new File(root).exists()) {
+            System.out.println("new File(root).mkdirs() = " + new File(root).mkdirs());
+        }
+    }
     @SneakyThrows
     @Override
     public String save(MultipartFile file) {

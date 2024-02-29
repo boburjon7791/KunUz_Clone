@@ -1,5 +1,6 @@
 package com.example.demo.config;
 
+import com.example.demo.sevices.CustomUserDetails;
 import com.example.demo.sevices.CustomUserDetailsService;
 import com.example.demo.utils.JwtUtils;
 import jakarta.servlet.FilterChain;
@@ -43,10 +44,10 @@ public class JwtSecurity extends OncePerRequestFilter {
         }
         authorization=authorization.substring(7);
         String username = JwtUtils.getUsername(authorization);
-        UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
-        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+        CustomUserDetails customUserDetails = customUserDetailsService.loadUserByUsername(username);
+        Collection<? extends GrantedAuthority> authorities = customUserDetails.getAuthorities();
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(username,null,authorities);
+                new UsernamePasswordAuthenticationToken(customUserDetails,null,authorities);
         WebAuthenticationDetails details = new WebAuthenticationDetails(request);
         log.info(details.toString());
         SecurityContext context = SecurityContextHolder.getContext();

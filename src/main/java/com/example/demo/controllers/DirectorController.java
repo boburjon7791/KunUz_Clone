@@ -2,6 +2,8 @@ package com.example.demo.controllers;
 
 import com.example.demo.enums.Role;
 import com.example.demo.objects.AuthUser;
+import com.example.demo.sevices.AuthService;
+import com.example.demo.sevices.CustomUserDetails;
 import com.example.demo.sevices.DirectorService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import static com.example.demo.utils.Utils.number;
@@ -20,6 +23,8 @@ import static com.example.demo.utils.Utils.number;
 @PreAuthorize("hasRole('DIRECTOR')")
 public class DirectorController {
     private final DirectorService directorService;
+    private final AuthService authService;
+
     @PostMapping("/save/employee")
     public ResponseEntity<AuthUser> save(@RequestBody @Valid AuthUser user){
         AuthUser authUser = directorService.save(user);
@@ -42,5 +47,9 @@ public class DirectorController {
                                        @PathVariable Long id){
         directorService.updatePosition(Role.valueOf(position),id);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/get/{id}")
+    public ResponseEntity<AuthUser> get(@PathVariable Long id){
+        return ResponseEntity.ok(authService.get(id));
     }
 }

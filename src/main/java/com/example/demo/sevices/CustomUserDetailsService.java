@@ -7,7 +7,6 @@ import com.example.demo.repositories.AuthUserRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,18 +19,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final AuthUserRepository authUserRepository;
 
     @Override
-    public UserDetails loadUserByUsername(@NonNull String username) throws UsernameNotFoundException {
+    public CustomUserDetails loadUserByUsername(@NonNull String username) throws UsernameNotFoundException {
         try {
             AuthUser authUser = authUserRepository.findByUsernameAndActiveTrue(username)
                     .orElseThrow(NotFoundException::new);
-            return User.builder()
-                    .username(authUser.getUsername())
-                    .roles(authUser.getRole().name())
-                    .password(authUser.getPassword())
-                    .disabled(false)
-                    .credentialsExpired(false)
-                    .accountLocked(authUser.getActive())
-                    .build();
+            return new CustomUserDetails(authUser);
         }catch (NotFoundException e){
             throw new UnauthorizedException();
         }

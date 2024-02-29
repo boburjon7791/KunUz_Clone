@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.objects.AuthUser;
 import com.example.demo.sevices.AuthService;
+import com.example.demo.sevices.CustomUserDetails;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -36,8 +38,9 @@ public class AuthController {
         AuthUser authUser = authService.update(user);
         return new ResponseEntity<>(authUser, HttpStatus.NO_CONTENT);
     }
-    @GetMapping("/get/{id}")
-    public ResponseEntity<AuthUser> get(@PathVariable Long id){
-        return ResponseEntity.ok(authService.get(id));
+    @GetMapping("/get")
+    public ResponseEntity<AuthUser> get(){
+        CustomUserDetails customUserDetails= (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(authService.get(customUserDetails.authUser().getId()));
     }
 }
